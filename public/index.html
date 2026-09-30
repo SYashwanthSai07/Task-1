@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Translatify AI | Intelligent Multi-Language Translation Tool</title>
+  <meta name="description" content="AI-powered language translator supporting Indian and international languages with instant translation, speech synthesis, and clipboard actions." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Background Glow Accents -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <!-- Main Navigation Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m5 8 6 6" />
+            <path d="m4 14 6-6 2-3" />
+            <path d="M2 5h12" />
+            <path d="M7 2h1" />
+            <path d="m22 22-5-10-5 10" />
+            <path d="M14 18h6" />
+          </svg>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">Translatify<span class="badge-ai">AI</span></div>
+          <p class="brand-subtitle">CodeAlpha Internship Task 1 • Intelligent Translation</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="status-indicator" title="Engine connected & ready">
+          <span class="status-dot"></span>
+          <span class="status-label" id="engineStatusText">Zero-Key Engine Ready</span>
+        </div>
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle dark mode" title="Switch Theme">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Translator Canvas -->
+  <main class="main-wrapper">
+    <!-- Quick Suggestion Chips for Fast Demoing -->
+    <section class="sample-chips-bar" aria-label="Quick test phrases">
+      <span class="chips-label">Quick test:</span>
+      <button class="chip" data-text="Hello, welcome to our interactive AI translation application!">"Hello, welcome..."</button>
+      <button class="chip" data-text="Where is the nearest railway station?">"Where is the station?"</button>
+      <button class="chip" data-text="I am very excited to showcase this project for my internship demonstration.">"Internship showcase"</button>
+      <button class="chip" data-text="Thank you very much for your kind support.">"Thank you kindly"</button>
+    </section>
+
+    <!-- Language Selector Toolbar -->
+    <section class="lang-toolbar card-shadow">
+      <div class="lang-group">
+        <label for="sourceLang" class="lang-label">
+          <span class="dot-icon blue"></span> Source Language
+        </label>
+        <div class="custom-select-wrap">
+          <select id="sourceLang" class="lang-select" aria-label="Source Language">
+            <option value="auto">✨ Auto Detect Language</option>
+            <!-- Injected dynamically by script.js -->
+          </select>
+        </div>
+      </div>
+
+      <!-- Center Swap Button with Rotation Micro-Interaction -->
+      <button id="swapBtn" class="swap-action-btn" aria-label="Swap source and target languages" title="Swap languages">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m7 16-4-4 4-4"></path>
+          <path d="M3 12h18"></path>
+          <path d="m17 8 4 4-4 4"></path>
+        </svg>
+      </button>
+
+      <div class="lang-group">
+        <label for="targetLang" class="lang-label">
+          <span class="dot-icon purple"></span> Target Language
+        </label>
+        <div class="custom-select-wrap">
+          <select id="targetLang" class="lang-select" aria-label="Target Language">
+            <!-- Injected dynamically by script.js -->
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Workspace Dual Panels: Input & Output -->
+    <div class="workspace-grid">
+      <!-- Left Panel: Source Text -->
+      <section class="panel panel-source card-shadow">
+        <div class="panel-header">
+          <span class="panel-tag" id="sourceMetaTag">Input text</span>
+          <div class="panel-actions">
+            <button id="clearBtn" class="btn-subtle" title="Clear text">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+              <span>Clear</span>
+            </button>
+            <button id="pasteBtn" class="btn-subtle" title="Paste from clipboard">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+              </svg>
+              <span>Paste</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="textarea-container">
+          <textarea
+            id="sourceText"
+            class="text-input"
+            placeholder="Type or paste text here to translate... (e.g., Hello, How are you?)"
+            maxlength="5000"
+            spellcheck="true"
+            aria-label="Text to translate"
+          ></textarea>
+        </div>
+
+        <div class="panel-footer">
+          <div class="meta-counters">
+            <span id="charCount">0 / 5,000 characters</span>
+            <span class="divider">•</span>
+            <span id="wordCount">0 words</span>
+          </div>
+          <div class="footer-actions">
+            <button id="micBtn" class="btn-action-icon mic-btn" title="Voice Input (Sarvam Speech-to-Text)" aria-label="Record voice input">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8" y1="23" x2="16" y2="23"></line>
+              </svg>
+            </button>
+            <button id="ttsSourceBtn" class="btn-action-icon" title="Listen to input text" aria-label="Listen to input text">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </svg>
+            </button>
+            <button id="translateBtn" class="btn-primary" aria-label="Translate Text">
+              <span class="btn-text">Translate</span>
+              <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+              <div class="btn-spinner hidden" id="translateSpinner"></div>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Panel: Translated Output -->
+      <section class="panel panel-target card-shadow">
+        <div class="panel-header">
+          <div class="target-title-wrap">
+            <span class="panel-tag target-tag" id="targetMetaTag">Translation</span>
+            <span class="engine-badge" id="engineUsedBadge">Ready</span>
+          </div>
+          <div class="panel-actions">
+            <button id="copyBtn" class="btn-subtle" title="Copy translated text">
+              <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span id="copyBtnText">Copy</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Output display with dynamic empty & content states -->
+        <div class="output-container" id="outputContainer">
+          <!-- Empty State -->
+          <div class="empty-state" id="emptyState">
+            <div class="empty-icon-ring">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+            </div>
+            <h3>Translation will appear here</h3>
+            <p>Select your preferred languages and click <strong>Translate</strong> or press <kbd>Ctrl</kbd> + <kbd>Enter</kbd>.</p>
+          </div>
+
+          <!-- Loading Shimmer State -->
+          <div class="loading-state hidden" id="loadingSkeleton">
+            <div class="shimmer-line line-long"></div>
+            <div class="shimmer-line line-med"></div>
+            <div class="shimmer-line line-short"></div>
+          </div>
+
+          <!-- Real Output -->
+          <div id="translatedText" class="translated-content hidden" tabindex="0" role="region" aria-live="polite"></div>
+        </div>
+
+        <div class="panel-footer">
+          <div class="meta-counters">
+            <span id="outputCharCount">0 characters</span>
+          </div>
+          <div class="footer-actions">
+            <button id="ttsTargetBtn" class="btn-action-icon" title="Listen to translation" aria-label="Listen to translated speech">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </svg>
+            </button>
+            <button id="stopSpeechBtn" class="btn-action-icon stop-icon hidden" title="Stop speech" aria-label="Stop audio">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <rect x="6" y="6" width="12" height="12" rx="2"></rect>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Recent Translation History Drawer / Cards -->
+    <section class="history-section card-shadow" id="historySection">
+      <div class="history-header">
+        <div class="history-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 14 14"></polyline>
+          </svg>
+          <h3>Recent Translations</h3>
+        </div>
+        <button id="clearHistoryBtn" class="btn-text-only" title="Clear saved history">Clear History</button>
+      </div>
+      <div class="history-list" id="historyList">
+        <div class="history-empty">No previous translations recorded in this session.</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modern Notification Toast Container -->
+  <div id="toastContainer" class="toast-container" aria-live="assertive"></div>
+
+  <!-- Professional Footer -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <p><strong>CodeAlpha Artificial Intelligence Internship</strong> • Task 1: Language Translation Tool</p>
+      <p class="footer-sub">Zero-Key Google Engine Architecture • Supports 20+ Regional & International Languages</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
